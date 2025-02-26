@@ -26,7 +26,17 @@ Healthverse is an AI-powered health platform developed under the EPICS initiativ
 - Ask health and fitness-related questions anytime.
 
 ## 🔑 API & Environment Variables
-This project requires you to set up the following environment variables:
+To run this project, you need to set up environment variables. Create a .env.local file in the root directory and add the following:
+
+GOOGLE_CLIENT_ID=YOUR_GOOGLE_CLIENT_ID
+GOOGLE_CLIENT_SECRET=YOUR_GOOGLE_CLIENT_SECRET
+NEXT_PUBLIC_NEWS_API_TOKEN=YOUR_NEWS_API_TOKEN
+
+You can obtain these credentials by:
+
+GOOGLE_CLIENT_ID & GOOGLE_CLIENT_SECRET: Creating a new Firebase App. Follow this guide.
+
+NEXT_PUBLIC_NEWS_API_TOKEN: Generating an API key from this source.
 - `GOOGLE_CLIENT_ID` and `GOOGLE_CLIENT_SECRET` – Obtained by creating a **Firebase App**. Follow the [step-by-step guide](https://console.firebase.google.com/).
 - `NEXT_PUBLIC_NEWS_API_TOKEN` – Get your API key [here](https://newsapi.org/).
 
