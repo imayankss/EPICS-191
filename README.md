@@ -29,6 +29,7 @@ Healthverse is an AI-powered health platform developed under the EPICS initiativ
 To run this project, you need to set up environment variables. Create a .env.local file in the root directory and add the following:
 
 GOOGLE_CLIENT_ID=YOUR_GOOGLE_CLIENT_ID
+
 GOOGLE_CLIENT_SECRET=YOUR_GOOGLE_CLIENT_SECRET
 NEXT_PUBLIC_NEWS_API_TOKEN=YOUR_NEWS_API_TOKEN
 
