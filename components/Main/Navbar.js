@@ -12,7 +12,7 @@ const Navbar = () => {
             <Link href="/">
                 <div className='md:w-full md:mt-4 flex gap-2 text-2xl items-center text-white p-4'>
                     <RiHeartPulseFill className='text-2xl' />
-                    <span>H.care</span>
+                    <span> Healthverse </span>
                 </div>
             </Link>
             <div className="flex md:flex-col ml-auto mr-5 text-white items-center md:items-stretch md:w-full md:gap-4 md:py-4 md:pl-4">
