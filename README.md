@@ -31,6 +31,7 @@ To run this project, you need to set up environment variables. Create a .env.loc
 GOOGLE_CLIENT_ID=YOUR_GOOGLE_CLIENT_ID
 
 GOOGLE_CLIENT_SECRET=YOUR_GOOGLE_CLIENT_SECRET
+
 NEXT_PUBLIC_NEWS_API_TOKEN=YOUR_NEWS_API_TOKEN
 
 You can obtain these credentials by:
