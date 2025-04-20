@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Meditation Timer</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #e9fdf4;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .container {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      background: white;
+      padding: 40px;
+      border-radius: 20px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+      max-width: 900px;
+      width: 100%;
+    }
+
+    .left-panel {
+      flex: 1;
+      text-align: center;
+    }
+
+    .timer {
+      font-size: 48px;
+      font-weight: bold;
+      margin: 20px 0;
+    }
+
+    .buttons {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+
+    .buttons button {
+      padding: 12px 20px;
+      font-size: 16px;
+      background-color: #16c79a;
+      border: none;
+      color: white;
+      border-radius: 10px;
+      cursor: pointer;
+    }
+
+    .buttons button:hover {
+      background-color: #13b089;
+    }
+
+    .right-panel {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+      margin-left: 30px;
+    }
+
+    .tip {
+      background-color: #2ed69d;
+      padding: 10px 20px;
+      border-radius: 10px;
+      box-shadow: 0 3px 10px rgba(0,0,0,0.15);
+      color: white;
+      font-weight: 500;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="left-panel">
+      <h1>Meditation Timer</h1>
+      <div class="timer" id="timer">00:00</div>
+
+      <div class="buttons">
+        <button onclick="startTimer(5)">Start 5 min</button>
+        <button onclick="startTimer(10)">Start 10 min</button>
+        <button onclick="startTimer(15)">Start 15 min</button>
+        <button onclick="stopTimer()">Stop</button>
+        <button onclick="toggleMute()" id="muteButton">Mute 🔊</button>
+        <button onclick="resumeTimer()">Resume</button>
+        <button onclick="restartTimer()">Restart</button>
+      </div>
+
+      <label>Choose Sound:
+        <select onchange="changeSound(this.value)" id="soundSelect">
+          <option value="rain.mp3">Rain</option>
+          <option value="waves.mp3">Waves</option>
+          <option value="forest.mp3">Forest</option>
+        </select>
+      </label>
+
+      <audio id="backgroundSound" loop></audio>
+    </div>
+
+    <div class="right-panel">
+      <div class="tip">🧘 Sit comfortably</div>
+      <div class="tip">🏳️ Focus on your breath</div>
+      <div class="tip">🧠 Let go of distractions</div>
+      <div class="tip">🕊️ Stay relaxed and mindful</div>
+    </div>
+  </div>
+
+  <script>
+    let timerInterval;
+    let isMuted = false;
+    let isPaused = false;
+    let currentSeconds = 0;
+    let initialSeconds = 0;
+    const timerDisplay = document.getElementById("timer");
+    const backgroundSound = document.getElementById("backgroundSound");
+    const muteButton = document.getElementById("muteButton");
+
+    function updateDisplay(seconds) {
+      const min = Math.floor(seconds / 60).toString().padStart(2, '0');
+      const sec = (seconds % 60).toString().padStart(2, '0');
+      timerDisplay.textContent = `${min}:${sec}`;
+    }
+
+    function startTimer(minutes) {
+      clearInterval(timerInterval);
+      initialSeconds = minutes * 60;
+      currentSeconds = initialSeconds;
+      isPaused = false;
+      runTimer();
+    }
+
+    function runTimer() {
+      clearInterval(timerInterval);
+      timerInterval = setInterval(() => {
+        if (currentSeconds <= 0) {
+          clearInterval(timerInterval);
+          timerDisplay.textContent = "Done!";
+          backgroundSound.pause();
+          return;
+        }
+        currentSeconds--;
+        updateDisplay(currentSeconds);
+      }, 1000);
+
+      if (!isMuted) {
+        backgroundSound.play().catch(e => console.log("Autoplay blocked"));
+      }
+    }
+
+    function stopTimer() {
+      clearInterval(timerInterval);
+      isPaused = true;
+      backgroundSound.pause();
+    }
+
+    function resumeTimer() {
+      if (isPaused && currentSeconds > 0) {
+        runTimer();
+        isPaused = false;
+      }
+    }
+
+    function restartTimer() {
+      if (initialSeconds > 0) {
+        currentSeconds = initialSeconds;
+        runTimer();
+      }
+    }
+
+    function toggleMute() {
+      isMuted = !isMuted;
+      backgroundSound.muted = isMuted;
+      muteButton.textContent = isMuted ? "Unmute 🔇" : "Mute 🔊";
+    }
+
+    function changeSound(soundFile) {
+      backgroundSound.pause();
+      backgroundSound.src = soundFile;
+      backgroundSound.load();
+      if (!isMuted && !isPaused && currentSeconds > 0) {
+        backgroundSound.play().catch(e => console.log("Autoplay blocked"));
+      }
+    }
+
+    window.onload = () => {
+      const defaultSound = document.getElementById("soundSelect").value;
+      changeSound(defaultSound);
+    };
+  </script>
+</body>
+</html>

@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flip Cards Memory Game</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@500&display=swap');
+        body {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            font-family: "Poppins", serif;
+            font-weight: 500;
+            text-align: center;
+            color: black;
+        }
+        .game-board {
+            display: grid;
+            grid-template-columns: repeat(4, 100px);
+            gap: 10px;
+            margin-top: 20px;
+        }
+        .card {
+            width: 100px;
+            height: 100px;
+            background-color: #3B82F6;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 24px;
+            color: #C4FA6F;
+            cursor: pointer;
+            border-radius: 10px;
+            transform: scale(1);
+            transition: transform 0.3s;
+        }
+        .card.flipped {
+            background-color: #ecf0f1;
+            color: black;
+            transform: scale(1.1);
+        }
+    </style>
+</head>
+<body>
+    <h1>Flip Cards Memory Game</h1>
+    <h2>Test Your Memory by Flipping the Cards</h2>
+    <p>Click on a card to reveal the number. Find all matching pairs to win the game!</p>
+    <div class="game-board" id="gameBoard"></div>
+    <p id="timer">Time: 0 seconds</p>
+
+    <script>
+        const numbers = [1, 2, 3, 4, 5, 6, 7, 8];
+        let cards = [...numbers, ...numbers]; // Duplicate numbers for matching pairs
+        cards.sort(() => Math.random() - 0.5);
+
+        const gameBoard = document.getElementById("gameBoard");
+        const timerDisplay = document.getElementById("timer");
+        let flippedCards = [];
+        let matchedPairs = 0;
+        let startTime = Date.now();
+        let timerInterval;
+
+        function updateTimer() {
+            const elapsedTime = Math.floor((Date.now() - startTime) / 1000);
+            timerDisplay.textContent = `Time: ${elapsedTime} seconds`;
+        }
+
+        function createCard(number) {
+            const card = document.createElement("div");
+            card.classList.add("card");
+            card.dataset.number = number;
+            card.textContent = "?"; // Hide number initially
+            
+            card.addEventListener("click", () => flipCard(card));
+            return card;
+        }
+
+        function flipCard(card) {
+            if (flippedCards.length < 2 && !card.classList.contains("flipped")) {
+                card.classList.add("flipped");
+                card.textContent = card.dataset.number;
+                flippedCards.push(card);
+            }
+
+            if (flippedCards.length === 2) {
+                setTimeout(checkMatch, 500);
+            }
+        }
+
+        function checkMatch() {
+            const [card1, card2] = flippedCards;
+            if (card1.dataset.number === card2.dataset.number) {
+                matchedPairs++;
+                if (matchedPairs === numbers.length) {
+                    clearInterval(timerInterval);
+                    const totalTime = Math.floor((Date.now() - startTime) / 1000);
+                    setTimeout(() => alert(`Well done! You completed the game in ${totalTime} seconds.`), 300);
+                }
+            } else {
+                card1.classList.remove("flipped");
+                card2.classList.remove("flipped");
+                card1.textContent = "?";
+                card2.textContent = "?";
+            }
+            flippedCards = [];
+        }
+
+        function initGame() {
+            gameBoard.innerHTML = "";
+            cards.forEach(number => {
+                gameBoard.appendChild(createCard(number));
+            });
+            startTime = Date.now();
+            timerInterval = setInterval(updateTimer, 1000);
+        }
+
+        initGame();
+    </script>
+</body>
+</html>

@@ -1,0 +1,51 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@font-face {
+  font-family: "ProductSans";
+  src: url('../public/ProductSansRegular.ttf');
+}
+@font-face {
+  font-family: "ProductSansBold";
+  src: url('../public/ProductSansBold.ttf');
+}
+
+@layer base{
+  *{
+    @apply box-border;
+  }
+  html{
+    @apply scroll-smooth;
+  }
+  body{
+    @apply p-0 m-0 font-productSans;
+  }
+  a{
+    @apply text-inherit 
+  }
+  rect{
+    @apply bg-black;
+  }
+}
+
+@layer components{
+  .trans{
+    @apply transition-all duration-150;
+  }
+  .lilBox{
+    @apply w-full font-bold flex items-center px-5 py-2 justify-center h-full overflow-hidden bg-white rounded-xl;
+  }
+  .foodbox{
+    @apply px-4 bg-gray-100 rounded-2xl overflow-hidden w-full;
+  }
+  .signUpInput{
+    @apply p-2  h-9 border-[1px] rounded-lg border-gray-200;
+  }
+  .blueballs{
+    @apply absolute bg-white h-[400px]  w-[400px] z-[0] trans rounded-[30%] animate-[spin_7s_ease-in-out_infinite];
+  }
+  .moodbox{
+    @apply h-full w-full rounded-xl flex justify-center trans drop-shadow-lg flex-col items-center gap-1 cursor-pointer hover:text-white;
+  }
+}

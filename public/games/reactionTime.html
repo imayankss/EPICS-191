@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <title>Reaction Time Game</title>
+    <style>
+        body {
+            font-family: "Montserrat", sans-serif;
+            text-align: center;
+            margin: 50px;
+        }
+        #box {
+            width: 100px;
+            height: 100px;
+            background-color: #3b82f6;
+            position: absolute;
+            display: none;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <h1>Reaction Time Game</h1>
+    <p>Click the box as fast as you can when it appears.</p>
+    <button onclick="startGame()" style="color:black; background-color:#a7bfe6; border-radius: 20%; width: 60px; height: 40px;">Start</button>
+    <p id="result"></p>
+    <div id="box" onclick="stopTimer()"></div>
+
+    <script>
+        let startTime;
+        let timeout;
+
+        function startGame() {
+            document.getElementById("result").textContent = "";
+            requestAnimationFrame(() => {
+                let delay = Math.random() * 2000 + 500; 
+                timeout = setTimeout(showBox, delay);
+            });
+        }
+
+        function showBox() {
+            let box = document.getElementById("box");
+            let maxWidth = window.innerWidth - 100;
+            let maxHeight = window.innerHeight - 100;
+            box.style.left = Math.random() * maxWidth + "px";
+            box.style.top = Math.random() * maxHeight + "px";
+            box.style.display = "block";
+            startTime = Date.now();
+        }
+
+        function stopTimer() {
+            let reactionTime = Date.now() - startTime;
+            document.getElementById("result").textContent = "Reaction Time: " + reactionTime + " ms";
+            document.getElementById("box").style.display = "none";
+            clearTimeout(timeout);
+        }
+    </script>
+</body>
+</html>
